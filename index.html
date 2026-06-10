@@ -279,7 +279,7 @@
   footer .fsub{font-size:.78rem;margin-top:8px;opacity:.6}
 
   /* reveal */
-  .reveal{opacity:0;transform:translateY(34px);transition:.9s cubic-bezier(.2,.8,.2,1)}
+  .reveal{opacity:0;transform:translateY(24px);transition:1.05s cubic-bezier(.2,.8,.2,1)}
   .reveal.in{opacity:1;transform:none}
 
   /* ===== CHOICE SCREEN ===== */
@@ -418,6 +418,26 @@
     .home-band{padding:34px 24px}
     footer{padding:38px 0}
   }
+
+  /* ===== GOLD-GLANZ (STARTBILDSCHIRM) ===== */
+  .choice-logo{animation:goldBreathLogo 5.5s ease-in-out infinite}
+  @keyframes goldBreathLogo{
+    0%,100%{filter:drop-shadow(0 6px 26px rgba(0,0,0,.5)) drop-shadow(0 0 14px rgba(216,178,94,.20))}
+    50%{filter:drop-shadow(0 6px 26px rgba(0,0,0,.5)) drop-shadow(0 0 28px rgba(216,178,94,.40))}
+  }
+  .choice-btn{border-color:rgba(216,178,94,.32);animation:goldEdgeSoft 5.5s ease-in-out infinite}
+  @keyframes goldEdgeSoft{
+    0%,100%{box-shadow:0 0 12px rgba(216,178,94,.10)}
+    50%{box-shadow:0 0 24px rgba(216,178,94,.22)}
+  }
+  .choice-btn.primary{animation:goldEdge 5.5s ease-in-out infinite}
+  @keyframes goldEdge{
+    0%,100%{box-shadow:0 0 16px rgba(216,178,94,.28)}
+    50%{box-shadow:0 0 34px rgba(216,178,94,.50)}
+  }
+
+  /* ===== SANFTES SCROLLEN ===== */
+  html{scroll-padding-top:92px}
 
   /* Reduzierte Bewegung respektieren (Barrierefreiheit) */
   @media(prefers-reduced-motion:reduce){
@@ -1207,12 +1227,12 @@ function showChoice(){
 
 // nav scroll state (all navs)
 const navs = document.querySelectorAll('nav');
-window.addEventListener('scroll', ()=> navs.forEach(n=> n.classList.toggle('scrolled', window.scrollY > 40)));
+window.addEventListener('scroll', ()=> navs.forEach(n=> n.classList.toggle('scrolled', window.scrollY > 40)), {passive:true});
 
 // reveal on scroll
 const io = new IntersectionObserver(es=>{
   es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
-},{threshold:.15});
+},{threshold:.12, rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.reveal').forEach((el,i)=>{
   el.style.transitionDelay = (i % 4 * 0.08) + 's';
   io.observe(el);
